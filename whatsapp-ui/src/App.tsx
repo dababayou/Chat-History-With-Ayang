@@ -63,7 +63,7 @@ function App() {
       try {
         setLoadingText('Fetching 10MB chat log...');
         setLoadingProgress(10);
-        const response = await fetch('/WhatsApp Chat with Chelllkuu.txt');
+        const response = await fetch('WhatsApp Chat with Chelllkuu.txt');
         
         if (!response.ok) {
           throw new Error('Failed to fetch chat file');
