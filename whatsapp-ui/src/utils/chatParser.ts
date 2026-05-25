@@ -6,7 +6,7 @@ export interface Message {
   text: string;
   isSystem: boolean;
   attachment?: {
-    type: 'image' | 'sticker' | 'media_omitted' | 'other';
+    type: 'image' | 'video' | 'audio' | 'sticker' | 'media_omitted' | 'other';
     filename: string;
   };
 }
@@ -72,10 +72,21 @@ export function parseChat(text: string): Message[] {
           };
         } else if (msgText.endsWith('(file attached)')) {
           const filename = msgText.replace(' (file attached)', '').trim();
-          const isSticker = filename.toLowerCase().endsWith('.webp') || filename.startsWith('STK-');
-          const isImage = filename.toLowerCase().endsWith('.jpg') || filename.toLowerCase().endsWith('.png') || filename.startsWith('IMG-');
+          const fileLower = filename.toLowerCase();
+          
+          const isSticker = fileLower.endsWith('.webp') || filename.startsWith('STK-');
+          const isImage = fileLower.endsWith('.jpg') || fileLower.endsWith('.jpeg') || fileLower.endsWith('.png') || fileLower.endsWith('.gif') || filename.startsWith('IMG-');
+          const isVideo = fileLower.endsWith('.mp4') || fileLower.endsWith('.3gp') || fileLower.endsWith('.mov') || filename.startsWith('VID-');
+          const isAudio = fileLower.endsWith('.mp3') || fileLower.endsWith('.wav') || fileLower.endsWith('.ogg') || fileLower.endsWith('.m4a') || fileLower.endsWith('.opus') || fileLower.endsWith('.amr') || filename.startsWith('AUD-') || filename.startsWith('PTT-');
+          
+          let type: 'image' | 'video' | 'audio' | 'sticker' | 'other' = 'other';
+          if (isSticker) type = 'sticker';
+          else if (isImage) type = 'image';
+          else if (isVideo) type = 'video';
+          else if (isAudio) type = 'audio';
+          
           currentMsg.attachment = {
-            type: isSticker ? 'sticker' : (isImage ? 'image' : 'other'),
+            type,
             filename
           };
         }
@@ -103,10 +114,21 @@ export function parseChat(text: string): Message[] {
           };
         } else if (line.endsWith('(file attached)')) {
           const filename = line.replace(' (file attached)', '').trim();
-          const isSticker = filename.toLowerCase().endsWith('.webp') || filename.startsWith('STK-');
-          const isImage = filename.toLowerCase().endsWith('.jpg') || filename.toLowerCase().endsWith('.png') || filename.startsWith('IMG-');
+          const fileLower = filename.toLowerCase();
+          
+          const isSticker = fileLower.endsWith('.webp') || filename.startsWith('STK-');
+          const isImage = fileLower.endsWith('.jpg') || fileLower.endsWith('.jpeg') || fileLower.endsWith('.png') || fileLower.endsWith('.gif') || filename.startsWith('IMG-');
+          const isVideo = fileLower.endsWith('.mp4') || fileLower.endsWith('.3gp') || fileLower.endsWith('.mov') || filename.startsWith('VID-');
+          const isAudio = fileLower.endsWith('.mp3') || fileLower.endsWith('.wav') || fileLower.endsWith('.ogg') || fileLower.endsWith('.m4a') || fileLower.endsWith('.opus') || fileLower.endsWith('.amr') || filename.startsWith('AUD-') || filename.startsWith('PTT-');
+          
+          let type: 'image' | 'video' | 'audio' | 'sticker' | 'other' = 'other';
+          if (isSticker) type = 'sticker';
+          else if (isImage) type = 'image';
+          else if (isVideo) type = 'video';
+          else if (isAudio) type = 'audio';
+          
           currentMsg.attachment = {
-            type: isSticker ? 'sticker' : (isImage ? 'image' : 'other'),
+            type,
             filename
           };
         }

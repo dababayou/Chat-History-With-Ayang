@@ -516,31 +516,117 @@ function App() {
                               </div>
                             )}
                             {msg.attachment.type === 'image' && (
-                              <div className="image-attachment-card">
-                                <ImageIcon size={24} className="attachment-icon" />
-                                <div className="attachment-meta">
-                                  <span className="filename">{msg.attachment.filename}</span>
-                                  <span className="filetype">Photo</span>
+                              <div className="image-media-wrapper">
+                                <img 
+                                  src={`DOC-20260524-WA0015/${msg.attachment.filename}`} 
+                                  alt={msg.attachment.filename} 
+                                  className="chat-image" 
+                                  loading="lazy" 
+                                  onError={(e) => {
+                                    (e.target as HTMLElement).style.display = 'none';
+                                    const parent = (e.target as HTMLElement).parentElement;
+                                    if (parent) {
+                                      const fb = parent.querySelector('.image-fallback');
+                                      if (fb) (fb as HTMLElement).style.display = 'flex';
+                                    }
+                                  }}
+                                />
+                                <div className="image-fallback" style={{ display: 'none' }}>
+                                  <ImageIcon size={24} className="attachment-icon" />
+                                  <div className="attachment-meta">
+                                    <span className="filename">{msg.attachment.filename}</span>
+                                    <span className="filetype">Photo</span>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                            {msg.attachment.type === 'video' && (
+                              <div className="video-media-wrapper">
+                                <video 
+                                  src={`DOC-20260524-WA0015/${msg.attachment.filename}`} 
+                                  controls 
+                                  className="chat-video"
+                                  preload="metadata"
+                                  onError={(e) => {
+                                    (e.target as HTMLElement).style.display = 'none';
+                                    const parent = (e.target as HTMLElement).parentElement;
+                                    if (parent) {
+                                      const fb = parent.querySelector('.video-fallback');
+                                      if (fb) (fb as HTMLElement).style.display = 'flex';
+                                    }
+                                  }}
+                                />
+                                <div className="video-fallback" style={{ display: 'none' }}>
+                                  <Video size={24} className="attachment-icon" />
+                                  <div className="attachment-meta">
+                                    <span className="filename">{msg.attachment.filename}</span>
+                                    <span className="filetype">Video</span>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                            {msg.attachment.type === 'audio' && (
+                              <div className="audio-media-wrapper">
+                                <audio 
+                                  src={`DOC-20260524-WA0015/${msg.attachment.filename}`} 
+                                  controls 
+                                  className="chat-audio"
+                                  onError={(e) => {
+                                    (e.target as HTMLElement).style.display = 'none';
+                                    const parent = (e.target as HTMLElement).parentElement;
+                                    if (parent) {
+                                      const fb = parent.querySelector('.audio-fallback');
+                                      if (fb) (fb as HTMLElement).style.display = 'flex';
+                                    }
+                                  }}
+                                />
+                                <div className="audio-fallback" style={{ display: 'none' }}>
+                                  <Mic size={24} className="attachment-icon" />
+                                  <div className="attachment-meta">
+                                    <span className="filename">{msg.attachment.filename}</span>
+                                    <span className="filetype">Audio / Voice Note</span>
+                                  </div>
                                 </div>
                               </div>
                             )}
                             {msg.attachment.type === 'sticker' && (
-                              <div className="sticker-attachment-card">
-                                <StickerIcon size={24} className="sticker-icon" />
-                                <div className="attachment-meta">
-                                  <span className="filename">{msg.attachment.filename}</span>
-                                  <span className="filetype">Sticker</span>
+                              <div className="sticker-media-wrapper">
+                                <img 
+                                  src={`DOC-20260524-WA0015/${msg.attachment.filename}`} 
+                                  alt="Sticker" 
+                                  className="chat-sticker" 
+                                  loading="lazy" 
+                                  onError={(e) => {
+                                    (e.target as HTMLElement).style.display = 'none';
+                                    const parent = (e.target as HTMLElement).parentElement;
+                                    if (parent) {
+                                      const fb = parent.querySelector('.sticker-fallback');
+                                      if (fb) (fb as HTMLElement).style.display = 'flex';
+                                    }
+                                  }}
+                                />
+                                <div className="sticker-fallback" style={{ display: 'none' }}>
+                                  <StickerIcon size={24} className="sticker-icon" />
+                                  <div className="attachment-meta">
+                                    <span className="filename">{msg.attachment.filename}</span>
+                                    <span className="filetype">Sticker</span>
+                                  </div>
                                 </div>
                               </div>
                             )}
                             {msg.attachment.type === 'other' && (
-                              <div className="other-attachment-card">
+                              <a 
+                                href={`DOC-20260524-WA0015/${msg.attachment.filename}`} 
+                                download 
+                                className="other-attachment-card"
+                                style={{ textDecoration: 'none' }}
+                              >
                                 <FileText size={24} className="attachment-icon" />
                                 <div className="attachment-meta">
                                   <span className="filename">{msg.attachment.filename}</span>
-                                  <span className="filetype">Document</span>
+                                  <span className="filetype">Document (Click to download)</span>
                                 </div>
-                              </div>
+                              </a>
                             )}
                             
                             {/* If there's text below attachment, show it */}
